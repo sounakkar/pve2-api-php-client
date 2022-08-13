@@ -7,7 +7,7 @@ API spec available at https://pve.proxmox.com/pve-docs/api-viewer/index.html
 
 ## Requirements: ##
 
-PHP 5/7 with cURL (including SSL/TLS) support.
+PHP 5/7/8 with cURL (including SSL/TLS) support.
 
 ## Usage: ##
 
