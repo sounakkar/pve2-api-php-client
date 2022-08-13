@@ -46,7 +46,7 @@ Example - Create a new VM  on the first host in the cluster.
 	$nvx['net0']="virtio,bridge=vmbr0,firewall=1,rate=12.5"; //example with firewall speed set to 100mbps
 	$nvx['ide2']="local:iso/generic-pc-2.11.1b178.amd64.iso,media=cdrom";
 	$nvx['onboot']="1"; //Start on boot
-	$nvx['scsi0']="local-zfs:32,ssd=on"; //example with adcance option ssd type
+	$nvx['scsi0']="local-zfs:32,ssd=on"; //example with advance option ssd type
 	$nvx['vga']="qxl,memory=128"; //for enable spice protocol with 128 mb memory
 	$pve2->POST("/nodes/pve/qemu", $nvx);
 		echo $nextvmid."-OK";
