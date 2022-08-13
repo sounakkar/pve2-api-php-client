@@ -28,7 +28,7 @@ Example - Return status array for each Proxmox Host in this cluster.
         exit;
     }
 
-Example - Create a new OpenVZ Container on the first host in the cluster.
+Example - Create a new VM  on the first host in the cluster.
 
     require_once("./pve2-api-php-client/pve2_api.class.php");
 
@@ -38,27 +38,18 @@ Example - Create a new OpenVZ Container on the first host in the cluster.
 
     if ($pve2->login()) {
 
-        # Get first node name.
-        $nodes = $pve2->get_node_list();
-        $first_node = $nodes[0];
-        unset($nodes);
-
-        # Create a VZ container on the first node in the cluster.
-        $new_container_settings = array();
-        $new_container_settings['ostemplate'] = "local:vztmpl/debian-6.0-standard_6.0-4_amd64.tar.gz";
-        $new_container_settings['vmid'] = "1234";
-        $new_container_settings['cpus'] = "2";
-        $new_container_settings['description'] = "Test VM using Proxmox 2.0 API";
-        $new_container_settings['disk'] = "8";
-        $new_container_settings['hostname'] = "testapi.domain.tld";
-        $new_container_settings['memory'] = "1024";
-        $new_container_settings['nameserver'] = "4.2.2.1";
-
-        // print_r($new_container_settings);
-        print("---------------------------\n");
-
-        print_r($pve2->post("/nodes/".$first_node."/openvz", $new_container_settings));
-        print("\n\n");
+    $nextid = $pve2->get("/cluster/nextid");
+	$nvx= array();
+	$nvx['vmid']=$nextid;
+	$nvx['cores']="1";
+	$nvx['memory']="1024";
+	$nvx['net0']="virtio,bridge=vmbr0,firewall=1,rate=12.5"; //example with firewall speed set to 100mbps
+	$nvx['ide2']="local:iso/generic-pc-2.11.1b178.amd64.iso,media=cdrom";
+	$nvx['onboot']="1"; //Start on boot
+	$nvx['scsi0']="local-zfs:32,ssd=on"; //example with adcance option ssd type
+	$nvx['vga']="qxl,memory=128"; //for enable spice protocol with 128 mb memory
+	$pve2->POST("/nodes/pve/qemu", $nvx);
+		echo $nextvmid."-OK";
     } else {
         print("Login to Proxmox Host failed.\n");
         exit;
