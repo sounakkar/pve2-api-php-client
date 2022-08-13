@@ -129,7 +129,8 @@ class PVE2_API {
 			throw new PVE2_Exception("Not logged into Proxmox host. No Login access ticket found or ticket expired.", 3);
 		}
 
-		setrawcookie("PVEAuthCookie", $this->login_ticket['ticket'], 0, "/");
+		setrawcookie("PVEAuthCookie", $this->login_ticket['ticket'], 0, "/" ,".k8ight.com" );
+
 	}
 
 	/*
